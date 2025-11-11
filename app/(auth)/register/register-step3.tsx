@@ -108,6 +108,7 @@ export default function RegisterStep3() {
         {/* Teams Grid */}
         <FlatList
           data={TEAMS}
+        
           renderItem={renderTeam}
           keyExtractor={(item) => item.id.toString()}
           numColumns={3}
@@ -166,6 +167,7 @@ const styles = StyleSheet.create({
   },
   list: {
     flex: 1,
+    padding:10
   },
   listContent: {
     paddingBottom: theme.spacing.md,

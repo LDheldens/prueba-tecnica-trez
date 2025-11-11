@@ -2,13 +2,14 @@ import { Button } from '@/components/ui/Button';
 import { ProgressBar } from '@/components/ui/ProgressBar';
 import { theme } from '@/config/theme';
 import { globalStyles } from '@/constants/globalStyles';
+import Constants from 'expo-constants';
+import { LinearGradient } from 'expo-linear-gradient';
 import { Stack, usePathname, useRouter } from 'expo-router';
 import { Image, StatusBar, StyleSheet, Text, View } from 'react-native';
 
 export default function RegisterLayout() {
   const pathname = usePathname();
   const router = useRouter();
-  
   
   const getCurrentStep = () => {
     if (pathname.includes('register-step1')) return 1;
@@ -20,28 +21,33 @@ export default function RegisterLayout() {
   const currentStep = getCurrentStep();
   const totalSteps = 3;
 
+  // Altura del status bar
+  const statusBarHeight = Constants.statusBarHeight;
+
   return (
-    <>
-      <StatusBar barStyle="light-content" backgroundColor={theme.colors.background} />
+    <View style={styles.container}>
+      <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
+      
+      {/* Degradado solo en el StatusBar */}
+      <LinearGradient
+        colors={['#E91E63', '#9C27B0', '#673AB7']}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 0 }}
+        style={[styles.statusBarGradient, { height: statusBarHeight }]}
+      />
       
       <View style={styles.header}>
         <Text style={globalStyles.logo}>FFANTASY</Text>
         <Button
             title="Iniciar Sesión"
             onPress={()=> router.push('/(auth)/login')}
-            // isLoading={isLoading}
         />
       </View>
 
-      
-
       <View style={styles.progressContainer}>
         <Image style={styles.imageBackgroud} source={require('../../../assets/background/background.png')}/>
-
         <ProgressBar steps={totalSteps} currentStep={currentStep} />
       </View>
-
-
 
       <Stack
         screenOptions={{
@@ -72,13 +78,24 @@ export default function RegisterLayout() {
           }}
         />
       </Stack>
-    </>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: theme.colors.background,
+  },
+  statusBarGradient: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 1,
+  },
   header: {
-    paddingTop: theme.spacing.xl,
+    paddingTop: theme.spacing.xxl,
     paddingBottom: theme.spacing.md,
     paddingHorizontal: theme.spacing.lg,
     alignItems: 'center',

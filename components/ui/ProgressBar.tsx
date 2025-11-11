@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   },
   progress: {
     height: '100%',
-    backgroundColor: theme.colors.primary,
+    backgroundColor: theme.colors.success,
     borderRadius: theme.borderRadius.full,
   },
 });
