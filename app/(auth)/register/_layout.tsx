@@ -1,84 +1,76 @@
 import { ProgressBar } from '@/components/ui/ProgressBar';
 import { theme } from '@/config/theme';
-import React from 'react';
-import {
-    KeyboardAvoidingView,
-    Platform,
-    SafeAreaView,
-    ScrollView,
-    StatusBar,
-    StyleSheet,
-    Text,
-    View,
-} from 'react-native';
+import { Stack, usePathname } from 'expo-router';
+import { StatusBar, StyleSheet, Text, View } from 'react-native';
 
-interface RegisterLayoutProps {
-  children: React.ReactNode;
-  currentStep: number;
-  totalSteps: number;
-  title: string;
-  subtitle: string;
-}
+export default function RegisterLayout() {
+  const pathname = usePathname();
+  
+  // Determinar el step actual basado en la ruta
+  const getCurrentStep = () => {
+    if (pathname.includes('register-step1')) return 1;
+    if (pathname.includes('register-step2')) return 2;
+    if (pathname.includes('register-step3')) return 3;
+    return 1;
+  };
 
-export const RegisterLayout: React.FC<RegisterLayoutProps> = ({
-  children,
-  currentStep,
-  totalSteps,
-  title,
-  subtitle,
-}) => {
+  const currentStep = getCurrentStep();
+  const totalSteps = 3;
+
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <>
       <StatusBar barStyle="light-content" backgroundColor={theme.colors.background} />
       
-      <KeyboardAvoidingView
-        style={styles.container}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
+      {/* Header compartido que se mantiene entre rutas */}
+      <View style={styles.header}>
+        <Text style={styles.logo}>FFANTASY</Text>
+      </View>
+
+      {/* Progress Bar compartido */}
+      <View style={styles.progressContainer}>
+        <ProgressBar steps={totalSteps} currentStep={currentStep} />
+      </View>
+
+      <Stack
+        screenOptions={{
+          headerShown: false,
+          contentStyle: { 
+            backgroundColor: theme.colors.background,
+          },
+          animation: 'slide_from_right',
+          gestureEnabled: false, // Evitar swipe back accidental
+        }}
       >
-        <ScrollView
-          contentContainerStyle={styles.scrollContent}
-          showsVerticalScrollIndicator={false}
-          keyboardShouldPersistTaps="handled"
-        >
-          {/* Header */}
-          <View style={styles.header}>
-            <Text style={styles.logo}>FFANTASY</Text>
-          </View>
-
-          {/* Progress Bar */}
-          <ProgressBar steps={totalSteps} currentStep={currentStep} />
-
-          {/* Title Section */}
-          <View style={styles.titleSection}>
-            <Text style={styles.title}>{title}</Text>
-            <Text style={styles.subtitle}>{subtitle}</Text>
-          </View>
-
-          {/* Content */}
-          <View style={styles.content}>{children}</View>
-        </ScrollView>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+        <Stack.Screen 
+          name="register-step1"
+          options={{
+            title: 'Paso 1',
+          }}
+        />
+        <Stack.Screen 
+          name="register-step2"
+          options={{
+            title: 'Paso 2',
+          }}
+        />
+        <Stack.Screen 
+          name="register-step3"
+          options={{
+            title: 'Paso 3',
+          }}
+        />
+      </Stack>
+    </>
   );
-};
+}
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: theme.colors.background,
-  },
-  container: {
-    flex: 1,
-  },
-  scrollContent: {
-    flexGrow: 1,
-    paddingHorizontal: theme.spacing.lg,
-  },
   header: {
     paddingTop: theme.spacing.xl,
     paddingBottom: theme.spacing.md,
+    paddingHorizontal: theme.spacing.lg,
     alignItems: 'center',
+    backgroundColor: theme.colors.background,
   },
   logo: {
     fontSize: 24,
@@ -86,21 +78,8 @@ const styles = StyleSheet.create({
     color: theme.colors.text,
     letterSpacing: 2,
   },
-  titleSection: {
-    marginTop: theme.spacing.lg,
-    marginBottom: theme.spacing.xl,
-  },
-  title: {
-    fontSize: theme.fontSize.xl,
-    fontWeight: 'bold',
-    color: theme.colors.text,
-    marginBottom: theme.spacing.xs,
-  },
-  subtitle: {
-    fontSize: theme.fontSize.md,
-    color: theme.colors.textSecondary,
-  },
-  content: {
-    flex: 1,
+  progressContainer: {
+    paddingHorizontal: theme.spacing.lg,
+    backgroundColor: theme.colors.background,
   },
 });

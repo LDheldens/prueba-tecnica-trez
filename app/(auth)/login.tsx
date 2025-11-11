@@ -54,7 +54,7 @@ export default function LoginScreen() {
         {/* Header */}
         <View style={styles.header}>
           <Text style={styles.logo}>FFANTASY</Text>
-          <TouchableOpacity style={styles.createAccountButton}>
+          <TouchableOpacity onPress={navigateToRegister} style={styles.createAccountButton}>
             <Text style={styles.createAccountText}>Crear Cuenta</Text>
           </TouchableOpacity>
         </View>

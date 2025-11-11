@@ -9,9 +9,17 @@ import { validateRegisterStep2 } from '@/features/auth/utils/validation';
 import { useRegistrationStore } from '@/store/slices/registrationSlice';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-export const RegisterStep2Screen: React.FC = () => {
+export default function RegisterStep2() {
   const router = useRouter();
   const {
     step2Data,
@@ -48,14 +56,12 @@ export const RegisterStep2Screen: React.FC = () => {
   const handleNext = () => {
     setIsLoading(true);
 
-    // Validate checkboxes
     if (!declaration || !acceptedTerms || !acceptedDataPolicy) {
       setErrors({ general: 'Debes aceptar todos los términos y condiciones' });
       setIsLoading(false);
       return;
     }
 
-    // Validate form
     const validationErrors = validateRegisterStep2(formData);
 
     if (validationErrors.length > 0) {
@@ -68,7 +74,6 @@ export const RegisterStep2Screen: React.FC = () => {
       return;
     }
 
-    // Save data and go to next step
     setStep2Data(formData);
     nextStep();
     setIsLoading(false);
@@ -87,107 +92,155 @@ export const RegisterStep2Screen: React.FC = () => {
   ];
 
   return (
-    <View style={styles.form}>
-        <Input
-          label="Username"
-          placeholder="Crea tu username"
-          value={formData.username}
-          onChangeText={(value) => handleChange('username', value)}
-          error={errors.username}
-          autoCapitalize="none"
-        />
-
-        <View style={styles.row}>
-          <View style={styles.halfWidth}>
-            <Select
-              label="Documento de identidad"
-              value={formData.documentType}
-              options={documentTypeOptions}
-              onSelect={(value) => handleChange('documentType', value as 'DNI' | 'RUC')}
-            />
+    <SafeAreaView style={styles.safeArea} edges={['bottom']}>
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
+      >
+        <ScrollView
+          contentContainerStyle={styles.scrollContent}
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
+        >
+          {/* Title Section */}
+          <View style={styles.titleSection}>
+            <Text style={styles.title}>Crea tu cuenta</Text>
+            <Text style={styles.subtitle}>
+              Configura tus credenciales de acceso
+            </Text>
           </View>
-          <View style={styles.halfWidth}>
+
+          {/* Form */}
+          <View style={styles.form}>
             <Input
-              placeholder={formData.documentType === 'DNI' ? '000 000 000 0' : '00000000000'}
-              value={formData.documentNumber}
-              onChangeText={(value) => handleChange('documentNumber', value)}
-              error={errors.documentNumber}
-              keyboardType="numeric"
-              maxLength={formData.documentType === 'DNI' ? 8 : 11}
+              label="Username"
+              placeholder="Crea tu username"
+              value={formData.username}
+              onChangeText={(value) => handleChange('username', value)}
+              error={errors.username}
+              autoCapitalize="none"
             />
+
+            <View style={styles.row}>
+              <View style={styles.halfWidth}>
+                <Select
+                  label="Documento de identidad"
+                  value={formData.documentType}
+                  options={documentTypeOptions}
+                  onSelect={(value) => handleChange('documentType', value as 'DNI' | 'RUC')}
+                />
+              </View>
+              <View style={styles.halfWidth}>
+                <Input
+                  placeholder={formData.documentType === 'DNI' ? '000 000 000 0' : '00000000000'}
+                  value={formData.documentNumber}
+                  onChangeText={(value) => handleChange('documentNumber', value)}
+                  error={errors.documentNumber}
+                  keyboardType="numeric"
+                  maxLength={formData.documentType === 'DNI' ? 8 : 11}
+                />
+              </View>
+            </View>
+
+            <Input
+              label="Contraseña"
+              placeholder="Crea una contraseña"
+              value={formData.password}
+              onChangeText={(value) => handleChange('password', value)}
+              error={errors.password}
+              secureTextEntry={!showPassword}
+              rightIcon={showPassword ? 'eye-off' : 'eye'}
+              onRightIconPress={() => setShowPassword(!showPassword)}
+              autoCapitalize="none"
+            />
+
+            <PasswordStrengthIndicator password={formData.password} />
+
+            <Input
+              label="Confirmar Contraseña"
+              placeholder="Confirma tu contraseña"
+              value={formData.confirmPassword}
+              onChangeText={(value) => handleChange('confirmPassword', value)}
+              error={errors.confirmPassword}
+              secureTextEntry={!showConfirmPassword}
+              rightIcon={showConfirmPassword ? 'eye-off' : 'eye'}
+              onRightIconPress={() => setShowConfirmPassword(!showConfirmPassword)}
+              autoCapitalize="none"
+            />
+
+            <View style={styles.checkboxes}>
+              <Checkbox checked={declaration} onToggle={() => setDeclaration(!declaration)}>
+                <Text style={styles.checkboxText}>Declaración</Text>
+              </Checkbox>
+
+              <Checkbox
+                checked={acceptedDataPolicy}
+                onToggle={() => setAcceptedDataPolicy(!acceptedDataPolicy)}
+              >
+                <Text style={styles.checkboxText}>
+                  Acepto recibir{' '}
+                  <Text style={styles.link}>Información y Datos</Text>
+                </Text>
+              </Checkbox>
+
+              <Checkbox checked={acceptedTerms} onToggle={() => setAcceptedTerms(!acceptedTerms)}>
+                <Text style={styles.checkboxText}>
+                  Al hacer clic en siguiente acepta los{' '}
+                  <Text style={styles.link}>Términos y Condiciones</Text>
+                </Text>
+              </Checkbox>
+            </View>
+
+            {errors.general && <Text style={styles.errorText}>{errors.general}</Text>}
+
+            <View style={styles.buttons}>
+              <Button
+                title="Volver"
+                onPress={handleBack}
+                variant="secondary"
+                style={styles.halfButton}
+              />
+              <Button
+                title="Siguiente"
+                onPress={handleNext}
+                isLoading={isLoading}
+                style={styles.halfButton}
+              />
+            </View>
           </View>
-        </View>
-
-        <Input
-          label="Contraseña"
-          placeholder="Crea una contraseña"
-          value={formData.password}
-          onChangeText={(value) => handleChange('password', value)}
-          error={errors.password}
-          secureTextEntry={!showPassword}
-          rightIcon={showPassword ? 'eye-off' : 'eye'}
-          onRightIconPress={() => setShowPassword(!showPassword)}
-          autoCapitalize="none"
-        />
-
-        <PasswordStrengthIndicator password={formData.password} />
-
-        <Input
-          label="Confirmar Contraseña"
-          placeholder="Confirma tu contraseña"
-          value={formData.confirmPassword}
-          onChangeText={(value) => handleChange('confirmPassword', value)}
-          error={errors.confirmPassword}
-          secureTextEntry={!showConfirmPassword}
-          rightIcon={showConfirmPassword ? 'eye-off' : 'eye'}
-          onRightIconPress={() => setShowConfirmPassword(!showConfirmPassword)}
-          autoCapitalize="none"
-        />
-
-        <View style={styles.checkboxes}>
-          <Checkbox checked={declaration} onToggle={() => setDeclaration(!declaration)}>
-            <Text style={styles.checkboxText}>Declaración</Text>
-          </Checkbox>
-
-          <Checkbox
-            checked={acceptedDataPolicy}
-            onToggle={() => setAcceptedDataPolicy(!acceptedDataPolicy)}
-          >
-            <Text style={styles.checkboxText}>
-              Acepto recibir{' '}
-              <Text style={styles.link}>Información y Datos</Text>
-            </Text>
-          </Checkbox>
-
-          <Checkbox checked={acceptedTerms} onToggle={() => setAcceptedTerms(!acceptedTerms)}>
-            <Text style={styles.checkboxText}>
-              Al hacer clic en siguiente acepta los{' '}
-              <Text style={styles.link}>Términos y Condiciones</Text>
-            </Text>
-          </Checkbox>
-        </View>
-
-        {errors.general && <Text style={styles.errorText}>{errors.general}</Text>}
-
-        <View style={styles.buttons}>
-          <Button
-            title="Volver"
-            onPress={handleBack}
-            variant="secondary"
-            style={styles.halfButton}
-          />
-          <Button
-            title="Siguiente"
-            onPress={handleNext}
-            isLoading={isLoading}
-            style={styles.halfButton}
-          />
-        </View>
-      </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
-};
+}
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: theme.colors.background,
+  },
+  container: {
+    flex: 1,
+  },
+  scrollContent: {
+    flexGrow: 1,
+    paddingHorizontal: theme.spacing.lg,
+  },
+  titleSection: {
+    marginTop: theme.spacing.lg,
+    marginBottom: theme.spacing.xl,
+  },
+  title: {
+    fontSize: theme.fontSize.xl,
+    fontWeight: 'bold',
+    color: theme.colors.text,
+    marginBottom: theme.spacing.xs,
+  },
+  subtitle: {
+    fontSize: theme.fontSize.md,
+    color: theme.colors.textSecondary,
+  },
   form: {
     flex: 1,
   },

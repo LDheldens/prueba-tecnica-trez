@@ -7,9 +7,10 @@ import { Team } from '@/features/auth/types/auth.types';
 import { useRegistrationStore } from '@/store/slices/registrationSlice';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { Alert, FlatList, StyleSheet, View } from 'react-native';
+import { Alert, FlatList, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-export const RegisterStep3Screen: React.FC = () => {
+export default function RegisterStep3() {
   const router = useRouter();
   const {
     step3Data,
@@ -20,8 +21,6 @@ export const RegisterStep3Screen: React.FC = () => {
     acceptedTerms,
     acceptedDataPolicy,
   } = useRegistrationStore();
-
-  // const { setUser, setToken } = useAuthStore();
 
   const [selectedTeamId, setSelectedTeamId] = useState<number | null>(
     step3Data?.favoriteTeamId || null
@@ -49,10 +48,8 @@ export const RegisterStep3Screen: React.FC = () => {
     setIsLoading(true);
 
     try {
-      // Save team selection
       setStep3Data({ favoriteTeamId: selectedTeamId });
 
-      // Get complete form data
       const completeData = getCompleteFormData();
 
       if (!completeData) {
@@ -61,21 +58,18 @@ export const RegisterStep3Screen: React.FC = () => {
         return;
       }
 
-      // Call register API
       const response = await authService.register(
         completeData,
         acceptedTerms,
         acceptedDataPolicy
       );
 
-      // Save user data and token
+      // Descomentar cuando tengas el store de auth listo
       // setUser(response.user);
       // setToken(response.token);
 
-      // Reset registration state
       resetRegistration();
 
-      // Navigate to home
       Alert.alert('¡Registro exitoso!', 'Bienvenido a FFANTASY', [
         {
           text: 'Continuar',
@@ -101,7 +95,17 @@ export const RegisterStep3Screen: React.FC = () => {
   );
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.safeArea} edges={['bottom']}>
+      <View style={styles.container}>
+        {/* Title Section */}
+        <View style={styles.titleSection}>
+          <Text style={styles.title}>Elige tu equipo</Text>
+          <Text style={styles.subtitle}>
+            Selecciona tu equipo favorito de fútbol
+          </Text>
+        </View>
+
+        {/* Teams Grid */}
         <FlatList
           data={TEAMS}
           renderItem={renderTeam}
@@ -110,45 +114,75 @@ export const RegisterStep3Screen: React.FC = () => {
           columnWrapperStyle={styles.row}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.listContent}
+          style={styles.list}
         />
 
-        <View style={styles.buttons}>
-          <Button
-            title="Volver"
-            onPress={handleBack}
-            variant="secondary"
-            style={styles.halfButton}
-            disabled={isLoading}
-          />
-          <Button
-            title="Confirmar"
-            onPress={handleConfirm}
-            isLoading={isLoading}
-            style={styles.halfButton}
-            disabled={!selectedTeamId}
-          />
+        {/* Buttons */}
+        <View style={styles.buttonsContainer}>
+          <View style={styles.buttons}>
+            <Button
+              title="Volver"
+              onPress={handleBack}
+              variant="secondary"
+              style={styles.halfButton}
+              disabled={isLoading}
+            />
+            <Button
+              title="Confirmar"
+              onPress={handleConfirm}
+              isLoading={isLoading}
+              style={styles.halfButton}
+              disabled={!selectedTeamId}
+            />
+          </View>
         </View>
       </View>
+    </SafeAreaView>
   );
-};
+}
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: theme.colors.background,
+  },
   container: {
+    flex: 1,
+    paddingHorizontal: theme.spacing.lg,
+  },
+  titleSection: {
+    marginTop: theme.spacing.lg,
+    marginBottom: theme.spacing.xl,
+  },
+  title: {
+    fontSize: theme.fontSize.xl,
+    fontWeight: 'bold',
+    color: theme.colors.text,
+    marginBottom: theme.spacing.xs,
+  },
+  subtitle: {
+    fontSize: theme.fontSize.md,
+    color: theme.colors.textSecondary,
+  },
+  list: {
     flex: 1,
   },
   listContent: {
-    paddingBottom: theme.spacing.xl,
+    paddingBottom: theme.spacing.md,
   },
   row: {
     justifyContent: 'space-between',
     marginBottom: theme.spacing.md,
     gap: theme.spacing.sm,
   },
+  buttonsContainer: {
+    paddingVertical: theme.spacing.lg,
+    borderTopWidth: 1,
+    borderTopColor: theme.colors.border || 'rgba(255,255,255,0.1)',
+  },
   buttons: {
     flexDirection: 'row',
     gap: theme.spacing.md,
-    paddingTop: theme.spacing.lg,
-    paddingBottom: theme.spacing.xl,
   },
   halfButton: {
     flex: 1,
