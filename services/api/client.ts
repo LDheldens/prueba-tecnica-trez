@@ -11,13 +11,16 @@ export class ApiClient {
     
     const data = isJson ? await response.json() : await response.text();
     
+    
     if (!response.ok) {
       const error: ApiError = {
         message: data?.message || data?.error || 'Error en la petición',
         statusCode: response.status,
         error: data?.error,
       };
+      
       throw error;
+      
     }
     
     return data;
@@ -45,14 +48,16 @@ export class ApiClient {
       });
       
       return await this.handleResponse<T>(response);
+      
     } catch (error) {
-      if (error instanceof Error && 'statusCode' in error) {
+      if (error && typeof error === 'object' && 'statusCode' in error) {
         throw error;
       }
       
       throw {
         message: 'Error de conexión. Por favor verifica tu internet.',
         statusCode: 0,
+        error: 'NETWORK_ERROR'
       } as ApiError;
     }
   }
