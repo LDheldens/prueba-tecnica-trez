@@ -11,9 +11,9 @@ export const validateEmail = (email: string): string | null => {
   }
   
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email)) {
-    return 'Por favor ingresa un correo electrónico válido';
-  }
+  // if (!emailRegex.test(email)) {
+  //   return 'Por favor ingresa un correo electrónico válido';
+  // }
   
   return null;
 };
