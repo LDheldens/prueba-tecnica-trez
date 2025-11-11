@@ -9,6 +9,7 @@ export const theme = {
     error: '#FF5252',
     border: '#333333',
     inputBackground: '#2A2A2A',
+    success: '#4CAF50'
   },
   spacing: {
     xs: 4,

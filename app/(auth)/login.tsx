@@ -34,7 +34,7 @@ export default function LoginScreen() {
   };
 
   const navigateToRegister = () => {
-    router.push('/(auth)/register/step1');
+    router.push('/(auth)/register/register-step1');
   };
 
   const navigateToForgotPassword = () => {
