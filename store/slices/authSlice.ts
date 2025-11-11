@@ -52,8 +52,6 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
       isAuthenticated: false,
       error: null,
     });
-    // Aquí podrías limpiar el token de AsyncStorage/SecureStore
-    // await secureStorage.removeToken();
   },
 
   clearError: () => set({ error: null }),

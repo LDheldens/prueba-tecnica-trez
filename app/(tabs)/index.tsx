@@ -1,4 +1,4 @@
-import { Button } from 'react-native';
+import { Button } from '@/components/ui/Button';
 
 import { ThemedText } from '@/components/common/themed-text';
 import { useRouter } from 'expo-router';
@@ -11,7 +11,9 @@ export default function HomeScreen() {
   return (
     <SafeAreaView>
       <ThemedText>Text</ThemedText>
-      <Button title="Ir al login" onPress={() => router.push('/(auth)/login')} />
+      <Button title='Ir a Login' onPress={() => router.push('/(auth)/login')} >
+
+      </Button>
     </SafeAreaView>
   );
 }
