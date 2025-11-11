@@ -13,7 +13,7 @@ export const useLogin = () => {
     setValidationErrors([]);
 
     
-    const errors = validateLoginForm(credentials.username, credentials.password);
+    const errors = validateLoginForm(credentials.email, credentials.password);
     
     if (errors.length > 0) {
       setValidationErrors(errors);
