@@ -1,5 +1,5 @@
 export interface LoginCredentials {
-  email: string;
+  username: string;
   password: string;
 }
 
@@ -56,13 +56,13 @@ export interface Team {
 export interface RegisterRequest {
   firstName: string;
   lastName: string;
-  email: string;
-  birthDate: string; 
+  email?: string;
+  birthDate?: string; 
   username: string;
-  documentType: string;
-  documentNumber: string;
+  documentType?: string;
+  documentNumber?: string;
   password: string;
-  favoriteTeamId: number;
-  acceptedTerms: boolean;
-  acceptedDataPolicy: boolean;
+  favoriteTeamId?: number;
+  acceptedTerms?: boolean;
+  acceptedDataPolicy?: boolean;
 }

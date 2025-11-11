@@ -8,12 +8,12 @@ export const useLogin = () => {
   const [validationErrors, setValidationErrors] = useState<ValidationError[]>([]);
 
   const handleLogin = async (credentials: LoginCredentials) => {
-    // Limpiar errores previos
+   
     clearError();
     setValidationErrors([]);
 
-    // Validar formulario
-    const errors = validateLoginForm(credentials.email, credentials.password);
+    
+    const errors = validateLoginForm(credentials.username, credentials.password);
     
     if (errors.length > 0) {
       setValidationErrors(errors);

@@ -16,19 +16,19 @@ export const authService = {
     const registerData: RegisterRequest = {
       firstName: formData.firstName,
       lastName: formData.lastName,
-      email: formData.email,
+      // email: formData.email,
       birthDate: formatBirthDate(
         formData.birthDate.day,
         formData.birthDate.month,
         formData.birthDate.year
       ),
       username: formData.username,
-      documentType: formData.documentType,
-      documentNumber: formData.documentNumber,
+      // documentType: formData.documentType,
+      // documentNumber: formData.documentNumber,
       password: formData.password,
-      favoriteTeamId: formData.favoriteTeamId,
-      acceptedTerms,
-      acceptedDataPolicy,
+      // favoriteTeamId: formData.favoriteTeamId,
+      // acceptedTerms,
+      // acceptedDataPolicy,
     };
     
     return apiClient.post<LoginResponse>(
