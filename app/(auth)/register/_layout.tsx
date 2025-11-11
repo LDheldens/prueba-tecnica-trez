@@ -28,7 +28,6 @@ export default function RegisterLayout() {
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
       
-      {/* Degradado solo en el StatusBar */}
       <LinearGradient
         colors={['#E91E63', '#9C27B0', '#673AB7']}
         start={{ x: 0, y: 0 }}

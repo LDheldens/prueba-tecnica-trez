@@ -141,6 +141,7 @@ const styles = StyleSheet.create({
   scrollContent: {
     flexGrow: 1,
     padding: theme.spacing.lg,
+    marginTop:theme.spacing.lg
   },
   
   createAccountButton: {
