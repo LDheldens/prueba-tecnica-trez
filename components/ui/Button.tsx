@@ -1,12 +1,12 @@
 import { theme } from '@/config/theme';
 import React from 'react';
 import {
-    ActivityIndicator,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    TouchableOpacityProps,
-    ViewStyle,
+  ActivityIndicator,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  TouchableOpacityProps,
+  ViewStyle,
 } from 'react-native';
 
 interface ButtonProps extends TouchableOpacityProps {
@@ -64,9 +64,11 @@ export const Button: React.FC<ButtonProps> = ({
 
 const styles = StyleSheet.create({
   button: {
-    paddingVertical: theme.spacing.md,
-    paddingHorizontal: theme.spacing.lg,
-    borderRadius: theme.borderRadius.md,
+    padding:16,
+    borderTopLeftRadius: 16, 
+    borderBottomLeftRadius: 6,
+    borderTopRightRadius:6, 
+    borderBottomRightRadius: 16,
     alignItems: 'center',
     justifyContent: 'center',
     minHeight: 50,

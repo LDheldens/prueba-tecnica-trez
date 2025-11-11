@@ -1,10 +1,13 @@
+import { Button } from '@/components/ui/Button';
 import { ProgressBar } from '@/components/ui/ProgressBar';
 import { theme } from '@/config/theme';
-import { Stack, usePathname } from 'expo-router';
-import { StatusBar, StyleSheet, Text, View } from 'react-native';
+import { globalStyles } from '@/constants/globalStyles';
+import { Stack, usePathname, useRouter } from 'expo-router';
+import { Image, StatusBar, StyleSheet, Text, View } from 'react-native';
 
 export default function RegisterLayout() {
   const pathname = usePathname();
+  const router = useRouter();
   
   // Determinar el step actual basado en la ruta
   const getCurrentStep = () => {
@@ -21,15 +24,25 @@ export default function RegisterLayout() {
     <>
       <StatusBar barStyle="light-content" backgroundColor={theme.colors.background} />
       
-      {/* Header compartido que se mantiene entre rutas */}
       <View style={styles.header}>
-        <Text style={styles.logo}>FFANTASY</Text>
+        <Text style={globalStyles.logo}>FFANTASY</Text>
+        <Button
+            title="Iniciar Sesión"
+            onPress={()=> router.push('/(auth)/login')}
+            // isLoading={isLoading}
+        />
       </View>
+
+      
 
       {/* Progress Bar compartido */}
       <View style={styles.progressContainer}>
+        <Image style={styles.imageBackgroud} source={require('../../../assets/background/background.png')}/>
+
         <ProgressBar steps={totalSteps} currentStep={currentStep} />
       </View>
+
+
 
       <Stack
         screenOptions={{
@@ -38,7 +51,7 @@ export default function RegisterLayout() {
             backgroundColor: theme.colors.background,
           },
           animation: 'slide_from_right',
-          gestureEnabled: false, // Evitar swipe back accidental
+          gestureEnabled: false,
         }}
       >
         <Stack.Screen 
@@ -71,6 +84,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: theme.spacing.lg,
     alignItems: 'center',
     backgroundColor: theme.colors.background,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    textAlign: 'center',
   },
   logo: {
     fontSize: 24,
@@ -82,4 +98,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: theme.spacing.lg,
     backgroundColor: theme.colors.background,
   },
+  imageBackgroud:{
+    width: '100%',
+    height: 180,
+  }
 });

@@ -2,6 +2,7 @@ import { ErrorMessage } from '@/components/common/ErrorMessage';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { theme } from '@/config/theme';
+import { globalStyles } from '@/constants/globalStyles';
 import { SocialLoginButtons } from '@/features/auth/components/SocialLoginButtons';
 import { useLogin } from '@/features/auth/hooks/useLogin';
 import { useRouter } from 'expo-router';
@@ -28,7 +29,6 @@ export default function LoginScreen() {
     const result = await handleLogin({ email, password });
     
     if (result.success) {
-      // Navegar a la pantalla principal
       router.replace('/');
     }
   };
@@ -38,7 +38,6 @@ export default function LoginScreen() {
   };
 
   const navigateToForgotPassword = () => {
-    // Implementar navegación a recuperación de contraseña
     console.log('Forgot password');
   };
 
@@ -51,26 +50,24 @@ export default function LoginScreen() {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        {/* Header */}
-        <View style={styles.header}>
-          <Text style={styles.logo}>FFANTASY</Text>
-          <TouchableOpacity onPress={navigateToRegister} style={styles.createAccountButton}>
-            <Text style={styles.createAccountText}>Crear Cuenta</Text>
-          </TouchableOpacity>
+
+        <View style={globalStyles.headerForms}>
+            <Text style={globalStyles.logo}>FFANTASY</Text>
+            <Button
+                title="Crear Cuenta"
+                onPress={navigateToRegister}
+                // isLoading={isLoading}
+            />
         </View>
 
-        {/* Hero Section */}
+
         <View style={styles.heroSection}>
           <Image
-            source={{ uri: 'https://via.placeholder.com/300x200' }}
+            source={require('../../assets/background/background.png')}
             style={styles.heroImage}
           />
-          <View style={styles.logoOverlay}>
-            <Text style={styles.logoOverlayText}>FFANTASY</Text>
-          </View>
         </View>
 
-        {/* Title */}
         <View style={styles.titleSection}>
           <Text style={styles.title}>¡Hey, ya estás aquí!</Text>
           <Text style={styles.subtitle}>Conéctate y arma tu liga ganadora</Text>
@@ -145,17 +142,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     padding: theme.spacing.lg,
   },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: theme.spacing.xl,
-  },
-  logo: {
-    fontSize: theme.fontSize.xl,
-    fontWeight: 'bold',
-    color: theme.colors.text,
-  },
+  
   createAccountButton: {
     backgroundColor: theme.colors.primary,
     paddingHorizontal: theme.spacing.md,
