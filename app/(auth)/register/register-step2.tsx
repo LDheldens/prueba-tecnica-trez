@@ -103,7 +103,7 @@ export default function RegisterStep2() {
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
         >
-          {/* Title Section */}
+          
           <View style={styles.titleSection}>
             <Text style={styles.title}>Crea tu cuenta</Text>
             <Text style={styles.subtitle}>

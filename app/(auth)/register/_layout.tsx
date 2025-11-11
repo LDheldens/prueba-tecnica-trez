@@ -21,8 +21,35 @@ export default function RegisterLayout() {
   const currentStep = getCurrentStep();
   const totalSteps = 3;
 
-  // Altura del status bar
   const statusBarHeight = Constants.statusBarHeight;
+
+
+  const getStepTexts = () => {
+    switch (currentStep) {
+      case 1:
+        return {
+          title: '¡Únete ahora!',
+          subtitle: 'Regístrate y empieza a jugar',
+        };
+      case 2:
+        return {
+          title: 'Crea tu cuenta',
+          subtitle: 'Paso 2 de 3: Personaliza tu cuenta',
+        };
+      case 3:
+        return {
+          title: 'Crea tu cuenta',
+          subtitle: 'Paso 3 de 3: Elige tu equipo favorito',
+        };
+      default:
+        return {
+          title: '¡Únete ahora!',
+          subtitle: 'Regístrate y empieza a jugar',
+        };
+    }
+  };
+
+  const { title, subtitle } = getStepTexts();
 
   return (
     <View style={styles.container}>
@@ -38,14 +65,27 @@ export default function RegisterLayout() {
       <View style={styles.header}>
         <Text style={globalStyles.logo}>FFANTASY</Text>
         <Button
-            title="Iniciar Sesión"
-            onPress={()=> router.push('/(auth)/login')}
+          title="Iniciar Sesión"
+          onPress={() => router.push('/(auth)/login')}
         />
       </View>
 
       <View style={styles.progressContainer}>
-        <Image style={styles.imageBackgroud} source={require('../../../assets/background/background.png')}/>
+        <Image 
+          style={styles.imageBackgroud} 
+          source={require('../../../assets/background/background.png')}
+        />
+        
+        <View style={styles.textContainer}>
+          <Text style={styles.title}>{title}</Text>
+          <Text style={styles.subtitle}>{subtitle}</Text>
+        </View>
+
         <ProgressBar steps={totalSteps} currentStep={currentStep} />
+        
+        <Text style={styles.stepIndicator}>
+          Paso {currentStep} de {totalSteps}
+        </Text>
       </View>
 
       <Stack
@@ -101,7 +141,6 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.background,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    textAlign: 'center',
   },
   logo: {
     fontSize: 24,
@@ -113,8 +152,31 @@ const styles = StyleSheet.create({
     paddingHorizontal: theme.spacing.lg,
     backgroundColor: theme.colors.background,
   },
-  imageBackgroud:{
+  imageBackgroud: {
     width: '100%',
     height: 180,
-  }
+  },
+  textContainer: {
+    marginTop: theme.spacing.md,
+    marginBottom: theme.spacing.lg,
+  },
+  title: {
+    fontSize: theme.fontSize.xxl,
+    color: theme.colors.text,
+    fontWeight: '700',
+    textAlign: 'center',
+    marginBottom: theme.spacing.xs,
+  },
+  subtitle: {
+    fontSize: theme.fontSize.md,
+    color: theme.colors.textSecondary,
+    textAlign: 'center',
+  },
+  stepIndicator: {
+    textAlign: 'center',
+    marginTop: theme.spacing.sm,
+    marginBottom: theme.spacing.md,
+    color: theme.colors.text,
+    fontSize: theme.fontSize.sm,
+  },
 });

@@ -127,7 +127,7 @@ export default function RegisterStep3() {
           style={styles.list}
         />
 
-        {/* Buttons */}
+        
         <View style={styles.buttonsContainer}>
           <View style={styles.buttons}>
             <Button
