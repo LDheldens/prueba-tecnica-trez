@@ -25,7 +25,7 @@ export const authService = {
   ): Promise<LoginResponse> => {
     try {
       const registerData: RegisterRequest = {
-        firstName: formData.firstName,
+        name: formData.firstName,
         lastName: formData.lastName,
         username: formData.username,
         password: formData.password,

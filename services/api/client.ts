@@ -1,5 +1,6 @@
 import { ApiError } from '@/types/api.types';
 
+
 interface FetchOptions extends RequestInit {
   token?: string;
 }

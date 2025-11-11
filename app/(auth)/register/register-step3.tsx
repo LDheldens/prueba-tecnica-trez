@@ -1,3 +1,4 @@
+import { ErrorMessage } from '@/components/common/ErrorMessage';
 import { Button } from '@/components/ui/Button';
 import { theme } from '@/config/theme';
 import { TeamCard } from '@/features/auth/components/TeamCard';
@@ -26,8 +27,10 @@ export default function RegisterStep3() {
     step3Data?.favoriteTeamId || null
   );
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleTeamSelect = (teamId: number) => {
+    setError(null);
     setSelectedTeamId(teamId);
   };
 
@@ -41,11 +44,12 @@ export default function RegisterStep3() {
 
   const handleConfirm = async () => {
     if (!selectedTeamId) {
-      Alert.alert('Error', 'Por favor selecciona tu equipo favorito');
+      setError('Por favor selecciona tu equipo favorito');
       return;
     }
 
     setIsLoading(true);
+    setError(null);
 
     try {
       setStep3Data({ favoriteTeamId: selectedTeamId });
@@ -64,7 +68,7 @@ export default function RegisterStep3() {
         acceptedDataPolicy
       );
 
-      // Descomentar cuando tengas el store de auth listo
+
       // setUser(response.user);
       // setToken(response.token);
 
@@ -76,11 +80,16 @@ export default function RegisterStep3() {
           onPress: () => router.replace('/(tabs)'),
         },
       ]);
-    } catch (error: any) {
-      Alert.alert(
-        'Error al registrar',
-        error.message || 'Ocurrió un error durante el registro. Intenta nuevamente.'
-      );
+    } catch (err: any) {
+      console.error('Error during registration:', err);
+      
+      if (Array.isArray(err.message)) {
+        setError(err.message.join('\n'));
+      } else if (err.message) {
+        setError(err.message);
+      } else {
+        setError('Ocurrió un error inesperado. Intenta nuevamente.');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -105,7 +114,7 @@ export default function RegisterStep3() {
           </Text>
         </View>
 
-        {/* Teams Grid */}
+        {error && <ErrorMessage message={error} />}
         <FlatList
           data={TEAMS}
         
