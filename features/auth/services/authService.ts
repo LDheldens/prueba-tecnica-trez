@@ -1,40 +1,50 @@
 import { apiClient } from '@/services/api/client';
 import { API_ENDPOINTS } from '@/services/api/endpoints';
-import { formatBirthDate } from '@/utils/herpers';
 import { LoginCredentials, LoginResponse, RegisterFormData, RegisterRequest } from '../types/auth.types';
 
 export const authService = {
   
   login: async (credentials: LoginCredentials): Promise<LoginResponse> => {
-    return apiClient.post<LoginResponse>(
+    const response = await apiClient.post<LoginResponse>(
       API_ENDPOINTS.AUTH.LOGIN,
-      credentials
+      {
+        username: credentials.email,
+        password: credentials.password,
+      }
     );
+    
+    console.log('Login response:', response); 
+    return response;
   },
 
-  register: async (formData: RegisterFormData, acceptedTerms: boolean, acceptedDataPolicy: boolean): Promise<LoginResponse> => {
+  register: async (
+    formData: RegisterFormData,
+    acceptedTerms: boolean,
+    acceptedDataPolicy: boolean
+  ): Promise<LoginResponse> => {
+
     const registerData: RegisterRequest = {
       firstName: formData.firstName,
       lastName: formData.lastName,
-      // email: formData.email,
-      birthDate: formatBirthDate(
-        formData.birthDate.day,
-        formData.birthDate.month,
-        formData.birthDate.year
-      ),
+      // birthDate: formatBirthDate(
+      //   formData.birthDate.day,
+      //   formData.birthDate.month,
+      //   formData.birthDate.year
+      // ),
       username: formData.username,
-      // documentType: formData.documentType,
-      // documentNumber: formData.documentNumber,
       password: formData.password,
       // favoriteTeamId: formData.favoriteTeamId,
       // acceptedTerms,
       // acceptedDataPolicy,
     };
     
-    return apiClient.post<LoginResponse>(
+    const response = await apiClient.post<LoginResponse>(
       API_ENDPOINTS.AUTH.REGISTER,
       registerData
     );
+    
+    console.log('Register response:', response); 
+    return response;
   },
 
   logout: async (token: string): Promise<void> => {
