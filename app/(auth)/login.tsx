@@ -5,7 +5,6 @@ import { theme } from '@/config/theme';
 import { globalStyles } from '@/constants/globalStyles';
 import { SocialLoginButtons } from '@/features/auth/components/SocialLoginButtons';
 import { useLogin } from '@/features/auth/hooks/useLogin';
-import { useAuthStore } from '@/store/slices/authSlice';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
@@ -22,7 +21,7 @@ import {
 export default function LoginScreen() {
   const router = useRouter();
   const { handleLogin, isLoading, error, getFieldError } = useLogin();
-  const {logout} = useAuthStore();
+  
   
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
