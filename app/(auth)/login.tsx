@@ -73,20 +73,20 @@ export default function LoginScreen() {
           <Text style={styles.subtitle}>Conéctate y arma tu liga ganadora</Text>
         </View>
 
-        {/* Social Login */}
+       
         <SocialLoginButtons />
 
-        {/* Divider */}
+        
         <View style={styles.divider}>
           <View style={styles.dividerLine} />
           <Text style={styles.dividerText}>O</Text>
           <View style={styles.dividerLine} />
         </View>
 
-        {/* Error Message */}
+        
         {error && <ErrorMessage message={error} />}
 
-        {/* Login Form */}
+        
         <View style={styles.form}>
           <Input
             label="Username o Correo electrónico"
@@ -112,7 +112,7 @@ export default function LoginScreen() {
           </TouchableOpacity>
         </View>
 
-        {/* Login Button */}
+        
         <Button
           title="Iniciar Sesión"
           onPress={onLogin}
@@ -121,7 +121,7 @@ export default function LoginScreen() {
           style={styles.loginButton}
         />
 
-        {/* Register Link */}
+        
         <View style={styles.registerSection}>
           <Text style={styles.registerText}>¿Primera vez por aquí? </Text>
           <TouchableOpacity onPress={navigateToRegister}>

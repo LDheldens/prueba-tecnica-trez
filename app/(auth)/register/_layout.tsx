@@ -9,7 +9,7 @@ export default function RegisterLayout() {
   const pathname = usePathname();
   const router = useRouter();
   
-  // Determinar el step actual basado en la ruta
+  
   const getCurrentStep = () => {
     if (pathname.includes('register-step1')) return 1;
     if (pathname.includes('register-step2')) return 2;
@@ -35,7 +35,6 @@ export default function RegisterLayout() {
 
       
 
-      {/* Progress Bar compartido */}
       <View style={styles.progressContainer}>
         <Image style={styles.imageBackgroud} source={require('../../../assets/background/background.png')}/>
 

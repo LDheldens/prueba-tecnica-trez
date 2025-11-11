@@ -18,7 +18,7 @@ export const TeamCard: React.FC<TeamCardProps> = ({ team, isSelected, onSelect }
       activeOpacity={0.7}
     >
       <View style={styles.imageContainer}>
-        <Image source={{ uri: team.image }} style={styles.image} resizeMode="contain" />
+        <Image source={team.image} style={styles.image} resizeMode="contain" />
         {isSelected && (
           <View style={styles.heartContainer}>
             <Ionicons name="heart" size={20} color={theme.colors.primary} />

@@ -86,7 +86,7 @@ export default function RegisterStep1() {
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
         >
-          {/* Title Section */}
+
           <View style={styles.titleSection}>
             <Text style={styles.title}>Información Personal</Text>
             <Text style={styles.subtitle}>
@@ -94,7 +94,7 @@ export default function RegisterStep1() {
             </Text>
           </View>
 
-          {/* Form */}
+   
           <View style={styles.form}>
             <Input
               label="Nombres"
