@@ -12,34 +12,45 @@ interface TeamCardProps {
 
 export const TeamCard: React.FC<TeamCardProps> = ({ team, isSelected, onSelect }) => {
   return (
-    <TouchableOpacity
-      style={[styles.container, isSelected && styles.containerSelected]}
-      onPress={onSelect}
-      activeOpacity={0.7}
-    >
-      <View style={styles.imageContainer}>
-        <Image source={team.image} style={styles.image} resizeMode="contain" />
+    <View style={{maxWidth: 100,marginHorizontal:'auto'}}>
+      <TouchableOpacity
+        style={[styles.container, isSelected && styles.containerSelected]}
+        onPress={onSelect}
+        activeOpacity={0.7}
+      >
         {isSelected && (
-          <View style={styles.heartContainer}>
-            <Ionicons name="heart" size={20} color={theme.colors.primary} />
-          </View>
-        )}
-      </View>
+            <View style={styles.checkContainer}>
+              <Ionicons name="checkmark-circle" size={24} color={theme.colors.primary} />
+            </View>
+          )}
+        <View style={styles.imageContainer}>
+          <Image source={team.image} style={styles.image} resizeMode="contain" />
+          
+        </View>
+        
+      </TouchableOpacity>
       <Text style={styles.name} numberOfLines={2}>
-        {team.name}
-      </Text>
-    </TouchableOpacity>
+          {team.name}
+        </Text>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: theme.colors.surface,
-    borderRadius: theme.borderRadius.lg,
+    borderRadius: 12, 
     padding: theme.spacing.md,
+    borderTopLeftRadius: 20, 
+    borderBottomLeftRadius: 6,
+    borderTopRightRadius:6, 
+    borderBottomRightRadius: 20,
     alignItems: 'center',
     borderWidth: 2,
     borderColor: 'transparent',
+    maxWidth: 100, 
+    position: 'relative',
+    // margin: 4, 
   },
   containerSelected: {
     borderColor: theme.colors.primary,
@@ -49,24 +60,28 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     marginBottom: theme.spacing.sm,
-    position: 'relative',
+    
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   image: {
-    width: '100%',
-    height: '100%',
+    width: '80%', 
+    height: '80%',
+    maxWidth: 50, 
+    maxHeight: 50,
   },
-  heartContainer: {
+  checkContainer: {
     position: 'absolute',
-    top: -8,
-    right: -8,
+    top: -13,
+    right: -13,
     backgroundColor: theme.colors.background,
     borderRadius: theme.borderRadius.full,
-    padding: 4,
   },
   name: {
     fontSize: theme.fontSize.xs,
     color: theme.colors.text,
     textAlign: 'center',
     fontWeight: '600',
+    marginTop: 4,
   },
 });

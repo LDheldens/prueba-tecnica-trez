@@ -50,7 +50,7 @@ export interface RegisterFormData extends RegisterStep1Data, RegisterStep2Data, 
 export interface Team {
   id: number;
   name: string;
-  image: string;
+  image: string | any;
 }
 
 export interface RegisterRequest {
