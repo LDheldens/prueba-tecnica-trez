@@ -24,7 +24,7 @@ export const SocialLoginButtons: React.FC = () => {
       </TouchableOpacity>
 
       <TouchableOpacity
-        style={[styles.socialButton, styles.facebookButton]}
+        style={[styles.socialButton]}
         onPress={handleFacebookLogin}
       >
         <Image
@@ -48,21 +48,27 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: theme.colors.surface,
-    paddingVertical: theme.spacing.md,
-    borderRadius: theme.borderRadius.md,
+    backgroundColor: '#1A1A1A',
+    paddingVertical: 16,
+    borderTopLeftRadius: 16, 
+    borderBottomLeftRadius: 6,
+    borderTopRightRadius:6, 
+    borderBottomRightRadius: 16,
     gap: theme.spacing.sm,
+    borderWidth: 1,
+    borderColor: '#333333',
   },
   facebookButton: {
     backgroundColor: '#1877F2',
+    borderColor: '#1877F2',
   },
   icon: {
-    width: 20,
-    height: 20,
+    width: 24,
+    height: 24,
   },
   socialText: {
     color: theme.colors.text,
-    fontSize: theme.fontSize.md,
+    fontSize: 16,
     fontWeight: '600',
   },
 });
